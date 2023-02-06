@@ -1,6 +1,7 @@
 import os # Import the os module to read the directory
 import sys # Import the sys module to read the first python script parameter
 import time # Import the time module to check the cache file time
+import configparser # Import the configparser module to read the materials.config file
 # import PixyzMaterialLibrary
 
 import tkinter as tk # Import the tkinter module to show the directory selection dialog
@@ -9,10 +10,10 @@ from tkinter import filedialog # Import the filedialog module to show the direct
 root = tk.Tk() # Create the root window
 root.withdraw() # Hide the root window
 
-materials_config = "materials.config" # File containing the materials configuration
+materials_config_file_path = "materials.ini" # File containing the materials configuration
 
 create_cache_file = True # Create cache file
-cache_file = "materials.cache" # File containing cached material names
+cache_file_path = "materials.cache" # File containing cached material names
 cache_valid_time = 604800 # Cache file valid time in seconds (default: 7 days)
 
 material_ignore_file_path = "materials.ignore" # File containing material names to ignore
@@ -29,19 +30,19 @@ def __main__(): # Main function
 def loadConfig(): # Load the configuration
     global create_cache_file, cache_valid_time
 
-    if os.path.exists(materials_config): # Check if materials.config file exists
-        # Read the materials.config file and set the variables
-        with open(materials_config, "r") as f:
-            for line in f:
-                if line.startswith("create_cache_file="):
-                    create_cache_file = line.replace("create_cache_file=","").replace("\n","")
-                elif line.startswith("cache_valid_time="):
-                    cache_valid_time = int(line.replace("cache_valid_time=","").replace("\n",""))
+    config = configparser.ConfigParser() # Create the config parser object
+    
+    if not config.read(materials_config_file_path):
+        config['CACHE'] = {'CreateCacheFile': 'True', 'CacheValidTime': '604800'}
+        with open(materials_config_file_path, 'w') as configfile:
+            config.write(configfile)
     else:
-        # Create the materials.config file and set the default values
-        with open(materials_config, "w") as f:
-            f.write("create_cache_file=True\n")
-            f.write("cache_valid_time=604800")
+        config.read(materials_config_file_path) # Read the materials.config file
+
+        create_cache_file = config['CACHE']['CreateCacheFile']
+        # load as int
+        cache_valid_time = int(config['CACHE']['CacheValidTime'])
+        
 
 ### Material Ignore File ###
     # 1. Check if materials.ignore file exists
@@ -64,8 +65,8 @@ def loadMaterialIgnoreFile():
 def loadFromCache():
     global mat_files
 
-    if os.path.exists(cache_file) and (time.time() - os.path.getmtime(cache_file)) < cache_valid_time: # Check if cache file exists and is valid
-        with open(cache_file, "r") as f:
+    if os.path.exists(cache_file_path) and (time.time() - os.path.getmtime(cache_file_path)) < cache_valid_time: # Check if cache file exists and is valid
+        with open(cache_file_path, "r") as f:
             chached_mat_files = f.read().splitlines()
             for mat in chached_mat_files:
                 if mat not in material_ignore: # Check if material is in ignore list
@@ -86,7 +87,7 @@ def loadFromCache():
 
         mat_files = list(set(mat_files)) # Remove duplicates
 
-        with open(cache_file, "w") as f: # Write the material names to the cache file
+        with open(cache_file_path, "w") as f: # Write the material names to the cache file
             f.write("\n".join(mat_files))
 
 ### Add Materials ###
