@@ -1,18 +1,19 @@
 import pxz
 
-def add_material(mat_name): # add a new material to the Pixyz material library
-    new_mat = pxz.material.createMaterial(mat_name, "PBR") # create a new PBR material
+
+def add_material(mat_name):  # add a new material to the Pixyz material library
+    new_mat = pxz.material.createMaterial(mat_name, "PBR")  # create a new PBR material
 
     # Material structure:
-        # albedo
-        # metallic
-        # roughness
-        # opacity
-        # normal
-        # ao
+    # albedo
+    # metallic
+    # roughness
+    # opacity
+    # normal
+    # ao
 
     # Set the material properties based on the material name
-    if "Metal" in mat_name:
+    if "Metal" or "Metall" in mat_name:
         pxz.core.setProperty(new_mat, 'metallic', 1.0)
         pxz.core.setProperty(new_mat, 'roughness', 0.1)
     elif "Glass" in mat_name:
