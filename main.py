@@ -41,9 +41,14 @@ def load_config():  # Load the configuration
     else:
         config.read(materials_config_file_path)  # Read the materials.config file
 
-        create_cache_file = config['CACHE']['create_cache_file']
-        # load as int
-        cache_valid_time = int(config['CACHE']['cache_valid_time'])
+        try:
+            create_cache_file = config.getboolean('CACHE', 'create_cache_file')
+            cache_valid_time = config.getint('CACHE', 'cache_valid_time')
+        except:
+            print("Invalid configuration file. Please check the materials.ini file.")
+            sys.exit()
+        else:
+            print("Configuration loaded successfully.")
 
 
 # Material Ignore File
@@ -92,6 +97,11 @@ def load_from_cache():
 
         mat_files = list(set(mat_files))  # Remove duplicates
 
+        create_cache()
+
+
+def create_cache():
+    if create_cache_file:  # Create cache file
         with open(cache_file_path, "w") as f:  # Write the material names to the cache file
             f.truncate(0)  # Clear the file
             f.write("\n".join(mat_files))
