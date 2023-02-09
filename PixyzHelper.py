@@ -4,6 +4,8 @@ import pxz
 def add_material(mat_name):  # add a new material to the Pixyz material library
     new_mat = pxz.material.createMaterial(mat_name, "PBR")  # create a new PBR material
 
+    # TODO: skip if material already exists
+
     # Material structure:
     # albedo
     # metallic

@@ -4,7 +4,7 @@ import os  # Import the os module to read the directory
 import sys  # Import the sys module to read the first python script parameter
 import time  # Import the time module to check the cache file time
 import configparser  # Import the configparser module to read the materials.config file
-# import PixyzMaterialLibrary
+import PixyzHelper
 
 import tkinter as tk  # Import the tkinter module to show the directory selection dialog
 from tkinter import filedialog  # Import the filedialog module to show the directory selection dialog
@@ -104,27 +104,22 @@ def load_from_cache():
         create_cache()
 
 
+# Create Cache File
 def create_cache():
-    if create_cache_file:  # Create cache file
+    if create_cache_file:  # Create cache file if create_cache_file is True
         with open(cache_file_path, "w") as f:  # Write the material names to the cache file
             f.truncate(0)  # Clear the file
             f.write("\n".join(mat_files))
 
 
 # Add Materials
-# 1. Check if first python script parameter is "debug"
-# 2. If it is, print the material names to the console
-# 3. If it is not, add the material to Pixyz Material Library using the PixyzMaterialLibrary.add_material function
 def add_materials():
-    global mat_files
-
     for mat_file in mat_files:
         # if first python script parameter is "debug" skip line below
         if len(sys.argv) > 1 and sys.argv[1] == "debug":
             print(mat_file)
-        else:
-            # PixyzMaterialLibrary.add_material(mat_file)
-            pass
+
+        PixyzHelper.add_material(mat_file)
 
 
 __main__()  # Run the main function

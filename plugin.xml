@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<module name="GenerateMaterialDatabase" version="">
+    <include module="Core"/>
+    <include module="Material"/>
+
+    <function name="GenerateMaterialDatabase" description="Generate a material database from a list of materials" scriptFile="main.py">
+
+    </function>
+</module>
