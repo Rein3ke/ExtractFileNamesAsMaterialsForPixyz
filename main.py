@@ -1,3 +1,5 @@
+# author: Marvin Kullick
+
 import os  # Import the os module to read the directory
 import sys  # Import the sys module to read the first python script parameter
 import time  # Import the time module to check the cache file time
@@ -29,7 +31,9 @@ def __main__():  # Main function
     add_materials()  # Add materials to Pixyz Material Library
 
 
-def load_config():  # Load the configuration
+def load_config():
+    """Check if materials.ini file exists and load the configuration. Otherwise, create the file with default values."""
+
     global create_cache_file, cache_valid_time
 
     config = configparser.ConfigParser()  # Create the config parser object
