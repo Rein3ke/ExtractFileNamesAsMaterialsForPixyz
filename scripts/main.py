@@ -12,13 +12,13 @@ from tkinter import filedialog  # Import the filedialog module to show the direc
 root = tk.Tk()  # Create the root window
 root.withdraw()  # Hide the root window
 
-materials_config_file_path = "materials.ini"  # File containing the materials configuration
+materials_config_file_path = "../materials.ini"  # File containing the materials configuration
 
 create_cache_file = True  # Create cache file
-cache_file_path = "materials.cache"  # File containing cached material names
+cache_file_path = "../materials.cache"  # File containing cached material names
 cache_valid_time = 604800  # Cache file valid time in seconds (default: 7 days)
 
-material_ignore_file_path = "materials.ignore"  # File containing material names to ignore
+material_ignore_file_path = "../materials.ignore"  # File containing material names to ignore
 material_ignore = []  # List of material names to ignore
 
 mat_files = []  # List of material files

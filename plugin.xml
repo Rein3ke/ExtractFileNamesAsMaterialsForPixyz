@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<module name="GenerateMaterialDatabase" version="">
+<module name="GenerateMaterialDatabase">
     <include module="Core"/>
     <include module="Material"/>
 
